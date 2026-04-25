@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adaptive Round Robin Scheduler</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <div class="header-icon">⚡</div>
+    <div>
+      <h1>Adaptive Round Robin Scheduler</h1>
+      <p>Compare scheduling strategies with visual Gantt charts &amp; metrics</p>
+    </div>
+    <div class="badge">OS SIM</div>
+  </div>
+
+  <!-- ===== EXPLAIN PANEL ===== -->
+  <div class="full">
+    <div class="explain-panel">
+      <strong>📘 What is Adaptive RR?</strong> Standard Round Robin uses a fixed quantum for all processes.
+      <ul>
+        <li><strong>Average strategy</strong> — sets quantum = mean of all burst times, balancing short and long processes.</li>
+        <li><strong>Median strategy</strong> — sets quantum = median burst time, more robust to outliers.</li>
+      </ul>
+      Result: fewer context switches for short jobs, better fairness for longer ones.
+    </div>
+  </div>
+
+  <!-- ===== INPUT + CONFIG ===== -->
+  <div class="two-col">
+
+    <!-- Process Input Card -->
+    <div class="card">
+      <div class="card-label">Process Input <span>▸ id arrival burst</span></div>
+      <textarea id="inputData" rows="7" spellcheck="false">1 0 8
+2 1 4
+3 2 9
+4 3 5
+5 4 2</textarea>
+      <div class="gen-info">Format: [id] [arrival] [burst]  — one process per line</div>
+      <div style="margin-top:10px;">
+        <button class="btn btn-ghost" onclick="generateRandom()">🎲 Random Processes</button>
+      </div>
+    </div>
+
+    <!-- Scheduler Config Card -->
+    <div class="card">
+      <div class="card-label">Scheduler Config</div>
+
+      <div class="ctrl-group" style="margin-bottom:14px">
+        <label>Base Quantum</label>
+        <input type="number" id="quantum" value="3" min="1" max="50">
+      </div>
+
+      <div class="ctrl-group" style="margin-bottom:14px">
+        <label>Strategies to Run</label>
+        <div class="strategy-pills">
+          <div class="strategy-pill active" data-s="standard" onclick="toggleStrategy(this)">Standard</div>
+          <div class="strategy-pill active" data-s="average"  onclick="toggleStrategy(this)">Adaptive Avg</div>
+          <div class="strategy-pill active" data-s="median"   onclick="toggleStrategy(this)">Adaptive Median</div>
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <button class="btn btn-primary" onclick="runScheduler()">▶ Run Scheduler</button>
+      </div>
+    </div>
+
+  </div><!-- /two-col -->
+
+  <!-- ===== OUTPUT AREA (filled by JS) ===== -->
+  <div id="output-area">
+    <div class="idle-msg">
+      <div class="big">🖥️</div>
+      Configure your processes and hit <strong>Run Scheduler</strong>
+    </div>
+  </div>
+
+</div><!-- /app-shell -->
+
+<!-- Chart.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<!-- App logic -->
+<script src="script.js"></script>
+</body>
+</html>
